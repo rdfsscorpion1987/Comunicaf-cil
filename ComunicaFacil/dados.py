@@ -1,0 +1,128 @@
+"""Dados da app: temas e cartões. Edita aqui para mudar/adicionar cartões."""
+
+TEMAS = {
+    "claro": {
+        "fundo":        (0.96, 0.97, 1.0,  1),
+        "fundo2":       (1.0,  1.0,  1.0,  1),
+        "primaria":     (0.25, 0.55, 0.95, 1),
+        "primaria_esc": (0.15, 0.40, 0.80, 1),
+        "texto":        (0.12, 0.12, 0.20, 1),
+        "texto_claro":  (1.0,  1.0,  1.0,  1),
+        "destaque":     (1.0,  0.75, 0.10, 1),
+        "sucesso":      (0.20, 0.75, 0.45, 1),
+        "card":         (1.0,  1.0,  1.0,  1),
+        "sombra":       (0.80, 0.82, 0.90, 1),
+        "barra":        (0.25, 0.55, 0.95, 1),
+    },
+    "escuro": {
+        "fundo":        (0.08, 0.09, 0.13, 1),
+        "fundo2":       (0.12, 0.13, 0.18, 1),
+        "primaria":     (0.35, 0.65, 1.0,  1),
+        "primaria_esc": (0.25, 0.50, 0.85, 1),
+        "texto":        (0.92, 0.93, 0.97, 1),
+        "texto_claro":  (1.0,  1.0,  1.0,  1),
+        "destaque":     (1.0,  0.80, 0.20, 1),
+        "sucesso":      (0.25, 0.85, 0.55, 1),
+        "card":         (0.16, 0.18, 0.25, 1),
+        "sombra":       (0.05, 0.05, 0.08, 1),
+        "barra":        (0.14, 0.15, 0.22, 1),
+    },
+}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  DADOS: CATEGORIAS E ITENS
+# ══════════════════════════════════════════════════════════════════════════════
+
+CATEGORIAS = [
+    {
+        "id": "comida",
+        "nome": "Comida",
+        "emoji": "🍎",
+        "cor": (0.95, 0.40, 0.30, 1),
+        "itens": [
+            {"nome": "Água",       "emoji": "💧", "frase": "Quero água, por favor.",         "silabas": "Á-GUA"},
+            {"nome": "Leite",      "emoji": "🥛", "frase": "Quero leite, por favor.",        "silabas": "LEI-TE"},
+            {"nome": "Pão",        "emoji": "🍞", "frase": "Quero pão, por favor.",          "silabas": "PÃO"},
+            {"nome": "Maçã",       "emoji": "🍎", "frase": "Quero maçã, por favor.",         "silabas": "MA-ÇÃ"},
+            {"nome": "Banana",     "emoji": "🍌", "frase": "Quero banana, por favor.",       "silabas": "BA-NA-NA"},
+            {"nome": "Bolachas",   "emoji": "🍪", "frase": "Quero bolachas, por favor.",     "silabas": "BO-LA-CHAS"},
+            {"nome": "Iogurte",    "emoji": "🥣", "frase": "Quero iogurte, por favor.",      "silabas": "IO-GUR-TE"},
+            {"nome": "Fruta",      "emoji": "🍇", "frase": "Quero fruta, por favor.",        "silabas": "FRU-TA"},
+            {"nome": "Sopa",       "emoji": "🍲", "frase": "Quero sopa, por favor.",         "silabas": "SO-PA"},
+            {"nome": "Sumo",       "emoji": "🧃", "frase": "Quero sumo, por favor.",         "silabas": "SU-MO"},
+        ],
+    },
+    {
+        "id": "emocoes",
+        "nome": "Emoções",
+        "emoji": "😊",
+        "cor": (0.95, 0.70, 0.10, 1),
+        "itens": [
+            {"nome": "Feliz",      "emoji": "😊", "frase": "Estou feliz!",                   "silabas": "FE-LIZ"},
+            {"nome": "Triste",     "emoji": "😢", "frase": "Estou triste.",                  "silabas": "TRIS-TE"},
+            {"nome": "Com dor",    "emoji": "😣", "frase": "Tenho dor.",                     "silabas": "DOR"},
+            {"nome": "Cansado",    "emoji": "😴", "frase": "Estou cansado.",                 "silabas": "CAN-SA-DO"},
+            {"nome": "Com medo",   "emoji": "😨", "frase": "Tenho medo.",                    "silabas": "ME-DO"},
+            {"nome": "Zangado",    "emoji": "😠", "frase": "Estou zangado.",                 "silabas": "ZAN-GA-DO"},
+            {"nome": "Surpreso",   "emoji": "😲", "frase": "Estou surpreso!",                "silabas": "SUR-PRE-SO"},
+            {"nome": "Com calor",  "emoji": "🥵", "frase": "Tenho calor.",                   "silabas": "CA-LOR"},
+            {"nome": "Com frio",   "emoji": "🥶", "frase": "Tenho frio.",                    "silabas": "FRI-O"},
+            {"nome": "Com fome",   "emoji": "😋", "frase": "Tenho fome.",                    "silabas": "FO-ME"},
+        ],
+    },
+    {
+        "id": "atividades",
+        "nome": "Atividades",
+        "emoji": "🎮",
+        "cor": (0.30, 0.70, 0.40, 1),
+        "itens": [
+            {"nome": "Brincar",    "emoji": "🧸", "frase": "Quero brincar!",                 "silabas": "BRIN-CAR"},
+            {"nome": "Dormir",     "emoji": "🛌", "frase": "Quero dormir.",                  "silabas": "DOR-MIR"},
+            {"nome": "Passear",    "emoji": "🚶", "frase": "Quero passear!",                 "silabas": "PAS-SE-AR"},
+            {"nome": "Desenhar",   "emoji": "🖍️", "frase": "Quero desenhar!",               "silabas": "DE-SE-NHAR"},
+            {"nome": "Música",     "emoji": "🎵", "frase": "Quero ouvir música!",            "silabas": "MÚ-SI-CA"},
+            {"nome": "TV",         "emoji": "📺", "frase": "Quero ver televisão.",           "silabas": "TE-LE-VI-SÃO"},
+            {"nome": "Ler",        "emoji": "📖", "frase": "Quero ler um livro!",            "silabas": "LER"},
+            {"nome": "Banho",      "emoji": "🛁", "frase": "Quero tomar banho.",             "silabas": "BA-NHO"},
+            {"nome": "Jogar",      "emoji": "🎲", "frase": "Quero jogar!",                   "silabas": "JO-GAR"},
+            {"nome": "Abraço",     "emoji": "🤗", "frase": "Quero um abraço!",               "silabas": "A-BRA-ÇO"},
+        ],
+    },
+    {
+        "id": "corpo",
+        "nome": "Corpo",
+        "emoji": "🧠",
+        "cor": (0.60, 0.35, 0.85, 1),
+        "itens": [
+            {"nome": "Cabeça",     "emoji": "🤕", "frase": "A minha cabeça dói.",            "silabas": "CA-BE-ÇA"},
+            {"nome": "Barriga",    "emoji": "🤢", "frase": "A minha barriga dói.",           "silabas": "BAR-RI-GA"},
+            {"nome": "Casa de banho","emoji":"🚽", "frase": "Preciso ir à casa de banho.",   "silabas": "CA-SA-DE-BA-NHO"},
+            {"nome": "Mãos",       "emoji": "🙌", "frase": "Quero lavar as mãos.",           "silabas": "MÃOS"},
+            {"nome": "Dentes",     "emoji": "🦷", "frase": "Quero lavar os dentes.",         "silabas": "DEN-TES"},
+            {"nome": "Olhos",      "emoji": "👁️", "frase": "Os meus olhos doem.",           "silabas": "O-LHOS"},
+            {"nome": "Ouvidos",    "emoji": "👂", "frase": "Os meus ouvidos doem.",          "silabas": "OU-VI-DOS"},
+            {"nome": "Pés",        "emoji": "🦶", "frase": "Os meus pés doem.",             "silabas": "PÉS"},
+            {"nome": "Cansado",    "emoji": "💤", "frase": "Estou muito cansado.",           "silabas": "CAN-SA-DO"},
+            {"nome": "Medicamento","emoji": "💊", "frase": "Preciso do medicamento.",        "silabas": "ME-DI-CA-MEN-TO"},
+        ],
+    },
+    {
+        "id": "escola",
+        "nome": "Escola",
+        "emoji": "🏫",
+        "cor": (0.20, 0.60, 0.85, 1),
+        "itens": [
+            {"nome": "Ajuda",      "emoji": "🙋", "frase": "Preciso de ajuda.",              "silabas": "A-JU-DA"},
+            {"nome": "Não sei",    "emoji": "🤷", "frase": "Não sei.",                       "silabas": "NÃO-SEI"},
+            {"nome": "Percebi",    "emoji": "👍", "frase": "Percebi!",                       "silabas": "PER-CE-BI"},
+            {"nome": "Mais devagar","emoji":"🐢", "frase": "Fala mais devagar, por favor.",  "silabas": "DE-VA-GAR"},
+            {"nome": "Repetir",    "emoji": "🔁", "frase": "Podes repetir, por favor?",     "silabas": "RE-PE-TIR"},
+            {"nome": "Lápis",      "emoji": "✏️", "frase": "Quero o lápis.",               "silabas": "LÁ-PIS"},
+            {"nome": "Papel",      "emoji": "📄", "frase": "Quero papel.",                  "silabas": "PA-PEL"},
+            {"nome": "Recreio",    "emoji": "⚽", "frase": "Quero ir ao recreio!",          "silabas": "RE-CREI-O"},
+            {"nome": "Casa",       "emoji": "🏠", "frase": "Quero ir para casa.",           "silabas": "CA-SA"},
+            {"nome": "Obrigado",   "emoji": "🙏", "frase": "Obrigado!",                     "silabas": "O-BRI-GA-DO"},
+        ],
+    },
+]

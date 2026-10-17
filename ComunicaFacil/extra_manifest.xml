@@ -1,0 +1,6 @@
+<!-- Android 11+: permite à app encontrar o motor de voz (TTS) do telemóvel -->
+<queries>
+    <intent>
+        <action android:name="android.intent.action.TTS_SERVICE" />
+    </intent>
+</queries>
