@@ -51,6 +51,8 @@ from dados import TEMAS, CATEGORIAS
 
 PASTA = os.path.dirname(os.path.abspath(__file__))
 
+APP_VERSION = "0.2.1"
+
 ELOGIOS = ["Muito bem!", "Boa!", "Parabéns!", "Excelente!", "Muito bom!"]
 
 
@@ -499,6 +501,8 @@ class EcraPrincipal(FloatLayout):
         self._selecionar_categoria(CATEGORIAS[0])
         self.bind(size=self._atualizar_layout)
         Clock.schedule_once(self._atualizar_layout, 0)
+        Clock.schedule_interval(self._atualizar_voz, 1)
+        self._atualizar_voz()
 
     # ── construção ────────────────────────────────────────────────────────────
 
@@ -546,7 +550,7 @@ class EcraPrincipal(FloatLayout):
         self.raiz.add_widget(area)
 
         self.cab = BoxLayout(orientation="horizontal", size_hint=(1, None),
-                             height=dp(120),
+                             height=dp(132),
                              padding=[dp(20), dp(12), dp(12), dp(10)], spacing=dp(8))
         with self.cab.canvas.before:
             self._cor_cab = Color(*t["fundo2"])
@@ -557,9 +561,9 @@ class EcraPrincipal(FloatLayout):
         )
 
         texto_cab = BoxLayout(orientation="vertical", spacing=dp(4))
-        self.lbl_categoria = Label(text="", font_size=sp(14), bold=True,
+        self.lbl_categoria = Label(text="", font_size=sp(12), bold=True,
                                    halign="left", valign="middle",
-                                   color=t["primaria"], size_hint=(1, None), height=dp(22))
+                                   color=t["primaria"], size_hint=(1, None), height=dp(32))
         self.lbl_categoria.bind(size=lambda l, s: setattr(l, "text_size", s))
         texto_cab.add_widget(self.lbl_categoria)
 
@@ -569,6 +573,11 @@ class EcraPrincipal(FloatLayout):
                                color=t["texto"], size_hint=(1, 1))
         self.lbl_frase.bind(size=lambda l, s: setattr(l, "text_size", s))
         texto_cab.add_widget(self.lbl_frase)
+
+        self.lbl_voz = Label(text="", font_size=sp(11), halign="left", valign="middle",
+                             color=(*t["texto"][:3], 0.6), size_hint=(1, None), height=dp(16))
+        self.lbl_voz.bind(size=lambda l, s: setattr(l, "text_size", s))
+        texto_cab.add_widget(self.lbl_voz)
         self.cab.add_widget(texto_cab)
 
         self.btn_tema = BotaoIcone(source=caminho_emoji("🌙"), fit_mode="contain",
@@ -618,7 +627,7 @@ class EcraPrincipal(FloatLayout):
                 self.espaco.size = (0, 0)
                 for b in self._botoes_cat:
                     b.size_hint = (1, 1)
-                self.cab.height = dp(104)
+                self.cab.height = dp(124)
                 self.lbl_frase.font_size = sp(20)
             else:                              # barra lateral
                 self.raiz.orientation = "horizontal"
@@ -634,7 +643,7 @@ class EcraPrincipal(FloatLayout):
                 for b in self._botoes_cat:
                     b.size_hint = (1, None)
                     b.height = dp(80)
-                self.cab.height = dp(120)
+                self.cab.height = dp(132)
                 self.lbl_frase.font_size = sp(24)
         self._ajustar_grelha()
 
@@ -675,10 +684,21 @@ class EcraPrincipal(FloatLayout):
     # Fluxo: a criança escolhe → ouve a frase → "Agora tu! Repete comigo" →
     #        o adulto carrega em "Bem!" → "Muito bem! <frase>" + reforço positivo.
 
+    def _atualizar_voz(self, *_):
+        erro = getattr(self.tts, "erro", "")
+        if erro:
+            estado = erro
+        elif getattr(self.tts, "disponivel", False):
+            estado = "pronta"
+        else:
+            estado = "a arrancar..."
+        self.lbl_voz.text = f"Voz: {estado}  |  v{APP_VERSION}"
+
     def _ao_selecionar_item(self, item_data: dict):
         self.item_ativo = item_data
         self._cancelar_reposicao()
         self.lbl_frase.text = item_data["frase"]
+        self.tts.falar(item_data["frase"], "Agora tu! Repete comigo.")
         erro = getattr(self.tts, "erro", "")
         if erro:                                     # avisa em vez de falhar em silêncio
             self.lbl_categoria.text = "AVISO: " + erro.upper()
@@ -687,7 +707,6 @@ class EcraPrincipal(FloatLayout):
             self.lbl_categoria.text = "AGORA TU! REPETE COMIGO"
             self.lbl_categoria.color = self.categoria_atual["cor"]
         self._mostrar_painel()
-        self.tts.falar(item_data["frase"], "Agora tu! Repete comigo.")
 
     def _ouvir_outra_vez(self, *_):
         if self.item_ativo:
@@ -755,6 +774,7 @@ class EcraPrincipal(FloatLayout):
         self.btn_ouvir._desenhar()
         self.btn_bem._desenhar()
         self.lbl_logo.color = t["texto_claro"]
+        self.lbl_voz.color = (*t["texto"][:3], 0.6)
         self.lbl_frase.color = t["texto"]
         for btn in self._botoes_cat:
             btn.aplicar_tema(t)
