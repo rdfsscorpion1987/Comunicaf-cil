@@ -258,12 +258,14 @@ class TTSAndroid:
 
     def __init__(self):
         self.disponivel = False
+        self.erro = "a voz ainda está a arrancar, tenta outra vez"
         self._tts = None
         self._listener = None
         try:
             self._criar()
         except Exception as e:                       # noqa: BLE001
-            print("ComunicaFácil: TTS Android indisponível:", e)
+            self.erro = f"voz do Android indisponível ({e})"
+            print("ComunicaFácil:", self.erro)
 
     def _criar(self):
         from jnius import autoclass, PythonJavaClass, java_method
@@ -281,14 +283,27 @@ class TTSAndroid:
 
             @java_method("(I)V")
             def onInit(self, status):
-                if status != 0:                      # 0 = SUCCESS
-                    return
-                tts = dono._tts
-                for loc in (Locale("pt", "PT"), Locale("pt", "BR")):
-                    if tts.setLanguage(loc) >= 0:    # <0 = sem dados / sem suporte
-                        break
-                tts.setSpeechRate(0.85)
-                dono.disponivel = True
+                try:
+                    if status != 0:                  # 0 = SUCCESS
+                        dono.erro = (f"o Android não arrancou o motor de voz (código "
+                                     f"{status}); instala os Serviços de voz da Google")
+                        print("ComunicaFácil:", dono.erro)
+                        return
+                    tts = dono._tts
+                    com_pt = False
+                    for loc in (Locale("pt", "PT"), Locale("pt", "BR")):
+                        if tts.setLanguage(loc) >= 0:   # <0 = sem dados / sem suporte
+                            com_pt = True
+                            break
+                    tts.setSpeechRate(0.85)
+                    dono.erro = "" if com_pt else (
+                        "não há voz portuguesa no telemóvel "
+                        "(Definições > Texto para voz)")
+                    dono.disponivel = True
+                    print("ComunicaFácil: voz pronta, português:", com_pt)
+                except Exception as e:               # noqa: BLE001
+                    dono.erro = f"erro a preparar a voz ({e})"
+                    print("ComunicaFácil:", dono.erro)
 
         self._listener = OnInit()                    # guardar a referência!
 
@@ -305,9 +320,13 @@ class TTSAndroid:
         try:
             for i, texto in enumerate(textos):
                 # 0 = QUEUE_FLUSH (substitui), 1 = QUEUE_ADD (junta à fila)
-                self._tts.speak(texto, 0 if i == 0 else 1, None, f"cf{i}")
+                r = self._tts.speak(texto, 0 if i == 0 else 1, None, f"cf{i}")
+                if r != 0:                                      # 0 = SUCCESS
+                    self.erro = f"o Android recusou falar (código {r})"
+                    print("ComunicaFácil:", self.erro)
         except Exception as e:                                  # noqa: BLE001
-            print("ComunicaFácil: erro ao falar:", e)
+            self.erro = f"erro ao falar ({e})"
+            print("ComunicaFácil:", self.erro)
 
     def parar(self):
         try:
