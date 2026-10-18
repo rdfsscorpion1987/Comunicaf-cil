@@ -31,14 +31,15 @@ jobs:
         with:
           path: |
             ~/.buildozer
-            .buildozer
-          key: buildozer-${{ hashFiles('buildozer.spec') }}
+            ComunicaFacil/.buildozer
+          key: buildozer-${{ hashFiles('ComunicaFacil/buildozer.spec') }}
 
       - name: Compilar APK
+        working-directory: ComunicaFacil
         run: buildozer -v android debug
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
           name: ComunicaFacil-apk
-          path: bin/*.apk
+          path: ComunicaFacil/bin/*.apk
