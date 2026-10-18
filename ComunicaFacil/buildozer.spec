@@ -14,6 +14,9 @@ icon.filename = %(source.dir)s/icon.png
 orientation = all
 fullscreen = 0
 
+android.ndk = 25b
+p4a.branch = v2024.01.21
+
 # Sem permissões especiais: a voz usa o motor de TTS já instalado no telemóvel
 android.archs = arm64-v8a, armeabi-v7a
 android.accept_sdk_license = True
