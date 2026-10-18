@@ -8,7 +8,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 source.exclude_dirs = bin, .buildozer, .git, .github, __pycache__
 
-requirements = python3,kivy==2.3.0,pyjnius,android
+requirements = python3==3.11.5,hostpython3==3.11.5,kivy==2.3.0,pyjnius,android
 
 icon.filename = %(source.dir)s/icon.png
 orientation = all
