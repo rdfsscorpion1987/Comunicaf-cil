@@ -277,6 +277,7 @@ class TTSAndroid:
         TextToSpeech = autoclass("android.speech.tts.TextToSpeech")
         Locale = autoclass("java.util.Locale")
         self._Locale = Locale
+        self._JString = autoclass("java.lang.String")   # o pyjnius não converte str -> CharSequence
         dono = self
 
         class OnInit(PythonJavaClass):
@@ -322,7 +323,12 @@ class TTSAndroid:
         try:
             for i, texto in enumerate(textos):
                 # 0 = QUEUE_FLUSH (substitui), 1 = QUEUE_ADD (junta à fila)
-                r = self._tts.speak(texto, 0 if i == 0 else 1, None, f"cf{i}")
+                modo = 0 if i == 0 else 1
+                try:
+                    # speak(CharSequence, int, Bundle, String): o texto tem de ser java.lang.String
+                    r = self._tts.speak(self._JString(texto), modo, None, f"cf{i}")
+                except Exception:                                # noqa: BLE001
+                    r = self._tts.speak(texto, modo, None)       # API antiga (String, int, HashMap)
                 if r != 0:                                      # 0 = SUCCESS
                     self.erro = f"o Android recusou falar (código {r})"
                     print("ComunicaFácil:", self.erro)
